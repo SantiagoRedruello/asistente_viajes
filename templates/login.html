@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white"><h5>✈️ Planificar Nuevo Viaje</h5></div>
+            <div class="card-body">
+                <form action="{{ url_for('planificar') }}" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Ciudad de Destino</label>
+                        <input type="text" class="form-control" name="destino" placeholder="Ej: Madrid, Bariloche" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Cantidad de Días</label>
+                        <input type="number" class="form-control" name="dias" min="1" max="30" value="3" required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Consultar Clima e IA 🤖</button>
+                </form>
+            </div>
+        </div>
+        <div class="card shadow mt-3">
+            <div class="card-body text-center">
+                <h6>🔗 Endpoint JSON propio:</h6>
+                <a href="{{ url_for('api_historial') }}" target="_blank" class="btn btn-outline-primary btn-sm">Ver mis datos en JSON</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h4 class="mb-3">Tu Historial de Itinerarios</h4>
+        {% if not historial %}
+            <div class="alert alert-info">Aún no has planificado ningún viaje.</div>
+        {% else %}
+            {% for viaje in historial %}
+                <div class="card shadow mb-3">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">📍 {{ viaje['destino'] }}</h5>
+                        <span class="badge bg-light text-dark">🌤️ Clima: {{ viaje['clima'] }}</span>
+                    </div>
+                    <div class="card-body bg-white"><p style="white-space: pre-line;">{{ viaje['itinerario'] }}</p></div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

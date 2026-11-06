@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente de Viajes IA</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('home') }}">🌍 Asistente de Viajes IA</a>
+            <div class="navbar-nav ms-auto">
+                {% if session.get('usuario') %}
+                    <span class="navbar-text me-3 text-white">Hola, {{ session['usuario'] }}</span>
+                    <a class="nav-link btn btn-outline-danger btn-sm text-white px-3" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+                {% else %}
+                    <a class="nav-link" href="{{ url_for('login') }}">Iniciar Sesión</a>
+                    <a class="nav-link" href="{{ url_for('registro') }}">Registrarse</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+    <script src="https://jsdelivr.net"></script>
+</body>
+</html>
