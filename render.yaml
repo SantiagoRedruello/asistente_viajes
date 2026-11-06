@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: asistente-viajes-santiago
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: FLASK_SECRET_KEY
+        value: clave_secreta_fija_santiago_tp_12345
